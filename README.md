@@ -48,7 +48,5 @@ git clone https://github.com/xDprinDx/todo.git
   
 ### **NOTE**
 if you want to use key words in a task/list/desc name put an '/' before it.
-
-<br> <br> if you want to select all tasks/lists put "\*". *Eg: todo delete task \\\* from foo*, this will delete all tasks from foo. Exception to this rule being *todo tasks* as it already prints all tasks if not list is inputed.
-
-<br> <br> you can also use the numbers that are listed in *todo tasks*, most of the time it is 2 numbers like "*todo change desc n x y to (new desc)*", where x is list number and y is task number. If one number will be used for a command then it is the list number that you should input, like "*todo change list name n 1 to bar*".
+<br><br> if you want to select all tasks/lists put "\*". *Eg: todo delete task \\\* from foo*, this will delete all tasks from foo. Exception to this rule being *todo tasks* as it already prints all tasks if not list is inputed.
+<br><br> you can also use the numbers that are listed in *todo tasks*, most of the time it is 2 numbers like "*todo change desc n x y to (new desc)*", where x is list number and y is task number. If one number will be used for a command then it is the list number that you should input, like "*todo change list name n 1 to bar*".
