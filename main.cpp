@@ -97,8 +97,6 @@ void argParser(const int argc, char** argv){ // this function makes main look be
         exit(0);
     }
     else if (strcmp(argv[1], "tasks") == 0){ // check if user wrote "todo tasks ..."
-        struct winsize w; 
-        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w); // this will get termninal size
 
         if (argc == 2){ // if only "todo tasks"
             int i = 1, j = 1;
@@ -125,10 +123,10 @@ void argParser(const int argc, char** argv){ // this function makes main look be
                         std::cout << "\033[1;36m" << j++ << ". " << list.name << "\n"; // print list name with cyan color
 
                         for (std::vector<task>::iterator it = list.tasks.begin(); it != list.tasks.end(); it++){ // this will print task name followed by state, each state will make the output a different color
-                            if (it -> state == 'c') std::cout << "\t\033[1;32m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - 30 - it -> name.length() - getDig(i++)) << std::right << "\tcompleted\t\t";
-                            if (it -> state == 'i') std::cout << "\t\033[1;33m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - 30 - it -> name.length() - getDig(i++)) << std::right << "\tin progress\t\t";
-                            if (it -> state == 'n') std::cout << "\t\033[1;31m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - 30 - it -> name.length() - getDig(i++)) << std::right << "\tnot completed\t\t";
-                            if (it -> state == 'u') std::cout << "\t\033[1;37m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - 30 - it -> name.length() - getDig(i++) - 1) << std::right << "\tunknown\t\t\t";
+                            if (it -> state == 'c') std::cout << "\t\033[1;32m" <<  std::left << i << ". " << it -> name << std::setw(49 - it -> name.length() - getDig(i++)) << std::right << "\tcompleted\t\t";
+                            if (it -> state == 'i') std::cout << "\t\033[1;33m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++)) << std::right << "\tin progress\t\t";
+                            if (it -> state == 'n') std::cout << "\t\033[1;31m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++)) << std::right << "\tnot completed\t\t";
+                            if (it -> state == 'u') std::cout << "\t\033[1;37m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++) - 1) << std::right << "\tunknown\t\t\t";
 
                             if (it -> desc.length() != 0) // prints description if the task has one
                                 std::cout << trunc(it -> desc);
@@ -146,10 +144,10 @@ void argParser(const int argc, char** argv){ // this function makes main look be
             int i = 1;
 
             for (std::vector<task>::iterator it = list.tasks.begin(); it != list.tasks.end(); it++){ //outputs all tasks (read code above if you need explanation)
-                if (it -> state == 'c') std::cout << "\033[1;32m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - it -> name.length() - getDig(i++)) << std::right << "\tcompleted\t\t";
-                if (it -> state == 'i') std::cout << "\033[1;33m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - it -> name.length() - getDig(i++)) << std::right << "\tin progress\t\t";
-                if (it -> state == 'n') std::cout << "\033[1;31m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - it -> name.length() - getDig(i++)) << std::right << "\tnot completed\t\t";
-                if (it -> state == 'u') std::cout << "\033[1;37m" <<  std::left << i << ". " << it -> name << std::setw(w.ws_row - it -> name.length() - getDig(i++) - 1) << std::right << "\t\tunknown\t\t";
+                if (it -> state == 'c') std::cout << "\033[1;32m" <<  std::left << i << ". " << it -> name << std::setw(49 - it -> name.length() - getDig(i++)) << std::right << "\tcompleted\t\t";
+                if (it -> state == 'i') std::cout << "\033[1;33m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++)) << std::right << "\tin progress\t\t";
+                if (it -> state == 'n') std::cout << "\033[1;31m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++)) << std::right << "\tnot completed\t\t";
+                if (it -> state == 'u') std::cout << "\033[1;37m" <<  std::left << i << ". " << it -> name << std::setw(50 - it -> name.length() - getDig(i++) - 1) << std::right << "\t\tunknown\t\t";
 
                 if (it -> desc.length() != 0)
                     std::cout << "\"" << trunc(it -> desc) << "\"";
@@ -180,6 +178,11 @@ void argParser(const int argc, char** argv){ // this function makes main look be
                 int i = 1;
                 std::string* taskName = getInfo(argc, argv, 1, 5); // get task name
 
+                if (taskName[0].length() > 39){
+                    std::cout << "ERROR: TASKS CAN ONLY GO UP TO 40 CHARACTERS\n";
+                    exit(2);
+                }
+
                 std::filesystem::path file;
                 for (auto& dirEntry: std::filesystem::recursive_directory_iterator(listsFolder)){
                     if (dirEntry.is_regular_file()) {
@@ -208,6 +211,11 @@ void argParser(const int argc, char** argv){ // this function makes main look be
             // if user wrote "todo add task (task name) to (list name)"
             else{
                 std::string* info = getInfo(argc, argv, 2, 3); // info[0] = task name, info[1] = list name
+
+                if (info[0].length > 39){
+                    std::cout << "ERROR: TASKS CAN ONLY GO UP TO 40 CHARACTERS\n";
+                    exit(2); 
+                }
 
                 ini list(info[1]);
                 list.add(info[0], "", 'n');
