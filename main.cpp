@@ -212,7 +212,7 @@ void argParser(const int argc, char** argv){ // this function makes main look be
             else{
                 std::string* info = getInfo(argc, argv, 2, 3); // info[0] = task name, info[1] = list name
 
-                if (info[0].length > 39){
+                if (info[0].length() > 39){
                     std::cout << "ERROR: TASKS CAN ONLY GO UP TO 40 CHARACTERS\n";
                     exit(2); 
                 }
@@ -383,6 +383,11 @@ void argParser(const int argc, char** argv){ // this function makes main look be
                     int taskNum = atoi(argv[6]);
                     std::string* newTaskName = getInfo(argc, argv, 1, 8); // gets new list number
 
+                    if (newTaskName[0].length() > 39){
+                        std::cout << "ERROR: TASKS CAN ONLY GO UP TO 40 CHARACTERS\n";
+                        exit(2);
+                    }
+
                     int i = 1;
 
                     // iterates until it finds list number
@@ -426,6 +431,12 @@ void argParser(const int argc, char** argv){ // this function makes main look be
                 // if user wrote "todo change task name (task name) from (list name) to (new task name)"
                 else{
                     std::string* info = getInfo(argc, argv, 3, 4); // info[0] = old task name, info[1] = list name, info[2] = new task name
+
+                    if (info[2].length() > 39){
+                        std::cout << "ERROR: TASKS CAN ONLY GO UP TO 40 CHARACTERS\n";
+                        exit(2);
+                    }
+
                     ini list(info[1]);
 
                     // iterate through tasks until task is found
