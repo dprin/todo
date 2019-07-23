@@ -800,7 +800,7 @@ void argParser(const int argc, char** argv){ // this function makes main look be
         std::cout << "\033[1;32mEg: \"todo delete tasks \\* from test\" \033[1;37mwill delete all tasks from the list test.\n\n";
         std::cout << "\033[1;37mNumbers can also be used to make things faster.\n";
         std::cout << "\033[1;32mEg: \"todo change status n x y to c\"\033[1;37m where x is list number and y is task number.\n";
-        std::cout << "Exception to the 2 number rule is \033[1;32m\"todo delete list n x\"\n\033[0;37m";
+        std::cout << "Exception to the 2 number rule is \033[1;32m\"todo delete list n x\"\n\033[0m";
 
         exit(0);
     }
